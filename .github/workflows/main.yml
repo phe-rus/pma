@@ -29,5 +29,5 @@ jobs:
           tagName: v__VERSION__ # Replaces with version from package.json
           releaseName: "Pherus App v__VERSION__"
           releaseBody: "Automated build from GitHub Actions"
-          releaseDraft: true
+          releaseDraft: false # Change this to see it immediately
           prerelease: false
