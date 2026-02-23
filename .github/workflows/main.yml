@@ -1,0 +1,32 @@
+name: Build & Release Tauri
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    runs-on: windows-latest # Or windows-latest / macos-latest for cross-platform
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Build Tauri
+        uses: tauri-apps/tauri-action@v0
+        env:
+          CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
+          VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
+          VITE_CONVEX_SITE_URL: ${{ secrets.VITE_CONVEX_SITE_URL }}
+        with:
+          tagName: v__VERSION__ # Replaces with version from package.json
+          releaseName: "Pherus App v__VERSION__"
+          releaseBody: "Automated build from GitHub Actions"
+          releaseDraft: true
+          prerelease: false
