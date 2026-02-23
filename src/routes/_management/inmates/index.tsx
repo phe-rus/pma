@@ -46,6 +46,7 @@ import {
 import { cn } from '@/lib/utils'
 import { formatDate } from 'date-fns/format'
 import { SheetApplication } from '@/components/management-forms'
+import { Link } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_management/inmates/')({
     component: RouteComponent,
@@ -201,7 +202,10 @@ const columns: ColumnDef<Inmate>[] = [
         accessorKey: 'prisonNumber',
         header: 'Prison No.',
         cell: ({ row }) => (
-            <Badge variant="secondary" className="text-xs rounded font-mono">
+            <Badge
+                render={<Link to='/inmates/$uid' params={{ uid: row.original._id }} />}
+                variant="secondary" className="text-xs rounded font-mono cursor-pointer"
+            >
                 {row.original.prisonNumber}
             </Badge>
         ),

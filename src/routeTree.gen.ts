@@ -18,6 +18,7 @@ import { Route as ManagementOfficersIndexRouteImport } from './routes/_managemen
 import { Route as ManagementMovementsIndexRouteImport } from './routes/_management/movements/index'
 import { Route as ManagementInmatesIndexRouteImport } from './routes/_management/inmates/index'
 import { Route as ManagementDocumentationsIndexRouteImport } from './routes/_management/documentations/index'
+import { Route as ManagementInmatesUidIndexRouteImport } from './routes/_management/inmates/$uid/index'
 
 const ManagementRouteRoute = ManagementRouteRouteImport.update({
   id: '/_management',
@@ -65,6 +66,12 @@ const ManagementDocumentationsIndexRoute =
     path: '/documentations/',
     getParentRoute: () => ManagementRouteRoute,
   } as any)
+const ManagementInmatesUidIndexRoute =
+  ManagementInmatesUidIndexRouteImport.update({
+    id: '/inmates/$uid/',
+    path: '/inmates/$uid/',
+    getParentRoute: () => ManagementRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof ManagementIndexRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/prisons/': typeof ManagementPrisonsIndexRoute
   '/settings/': typeof ManagementSettingsIndexRoute
   '/visits/': typeof ManagementVisitsIndexRoute
+  '/inmates/$uid/': typeof ManagementInmatesUidIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof ManagementIndexRoute
@@ -85,6 +93,7 @@ export interface FileRoutesByTo {
   '/prisons': typeof ManagementPrisonsIndexRoute
   '/settings': typeof ManagementSettingsIndexRoute
   '/visits': typeof ManagementVisitsIndexRoute
+  '/inmates/$uid': typeof ManagementInmatesUidIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -97,6 +106,7 @@ export interface FileRoutesById {
   '/_management/prisons/': typeof ManagementPrisonsIndexRoute
   '/_management/settings/': typeof ManagementSettingsIndexRoute
   '/_management/visits/': typeof ManagementVisitsIndexRoute
+  '/_management/inmates/$uid/': typeof ManagementInmatesUidIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/prisons/'
     | '/settings/'
     | '/visits/'
+    | '/inmates/$uid/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/prisons'
     | '/settings'
     | '/visits'
+    | '/inmates/$uid'
   id:
     | '__root__'
     | '/_management'
@@ -130,6 +142,7 @@ export interface FileRouteTypes {
     | '/_management/prisons/'
     | '/_management/settings/'
     | '/_management/visits/'
+    | '/_management/inmates/$uid/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -201,6 +214,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ManagementDocumentationsIndexRouteImport
       parentRoute: typeof ManagementRouteRoute
     }
+    '/_management/inmates/$uid/': {
+      id: '/_management/inmates/$uid/'
+      path: '/inmates/$uid'
+      fullPath: '/inmates/$uid/'
+      preLoaderRoute: typeof ManagementInmatesUidIndexRouteImport
+      parentRoute: typeof ManagementRouteRoute
+    }
   }
 }
 
@@ -213,6 +233,7 @@ interface ManagementRouteRouteChildren {
   ManagementPrisonsIndexRoute: typeof ManagementPrisonsIndexRoute
   ManagementSettingsIndexRoute: typeof ManagementSettingsIndexRoute
   ManagementVisitsIndexRoute: typeof ManagementVisitsIndexRoute
+  ManagementInmatesUidIndexRoute: typeof ManagementInmatesUidIndexRoute
 }
 
 const ManagementRouteRouteChildren: ManagementRouteRouteChildren = {
@@ -224,6 +245,7 @@ const ManagementRouteRouteChildren: ManagementRouteRouteChildren = {
   ManagementPrisonsIndexRoute: ManagementPrisonsIndexRoute,
   ManagementSettingsIndexRoute: ManagementSettingsIndexRoute,
   ManagementVisitsIndexRoute: ManagementVisitsIndexRoute,
+  ManagementInmatesUidIndexRoute: ManagementInmatesUidIndexRoute,
 }
 
 const ManagementRouteRouteWithChildren = ManagementRouteRoute._addFileChildren(

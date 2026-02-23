@@ -201,3 +201,89 @@ export const remove = mutation({
         return { success: true };
     },
 });
+
+export const getFullInmateRecord = query({
+    args: { id: v.id("inmates") },
+    handler: async (ctx, { id }) => {
+        const inmate = await ctx.db.get(id);
+        if (!inmate) return null;
+
+        // Fetch related data
+        const prison = await ctx.db.get(inmate.prisonId);
+        const offense = await ctx.db.get(inmate.offenseId);
+
+        // Fetch photos
+        const photos = await ctx.db
+            .query("photoBucket")
+            .withIndex("byInmateId", (q) => q.eq("inmateId", id))
+            .collect();
+
+        // Fetch fingerprints
+        const fingerprints = await ctx.db
+            .query("fingerPrints")
+            .withIndex("byInmateId", (q) => q.eq("inmateId", id))
+            .collect();
+
+        // Fetch medical records
+        const medicalRecords = await ctx.db
+            .query("medicalRecords")
+            .withIndex("byInmateId", (q) => q.eq("inmateId", id))
+            .collect();
+
+        // Fetch items in custody
+        const items = await ctx.db
+            .query("itemsInCustody")
+            .withIndex("byInmateId", (q) => q.eq("inmateId", id))
+            .collect();
+
+        // Fetch court appearances
+        const courtAppearances = await ctx.db
+            .query("courtAppearances")
+            .withIndex("byInmateId", (q) => q.eq("inmateId", id))
+            .collect();
+
+        // Fetch movements
+        const movements = await ctx.db
+            .query("recordMovements")
+            .withIndex("byInmateId", (q) => q.eq("inmateId", id))
+            .collect();
+
+        // Fetch visits
+        const visits = await ctx.db
+            .query("inmateVisits")
+            .withIndex("byInmateId", (q) => q.eq("inmateId", id))
+            .collect();
+
+        // Enrich court appearances with court details
+        const enrichedAppearances = await Promise.all(
+            courtAppearances.map(async (appearance) => {
+                const court = await ctx.db.get(appearance.courtId);
+                const officer = appearance.officerId ? await ctx.db.get(appearance.officerId) : null;
+                return { ...appearance, court, officer };
+            })
+        );
+
+        // Enrich movements with prison and officer details
+        const enrichedMovements = await Promise.all(
+            movements.map(async (movement) => {
+                const fromPrison = movement.fromPrisonId ? await ctx.db.get(movement.fromPrisonId) : null;
+                const toPrison = movement.toPrisonId ? await ctx.db.get(movement.toPrisonId) : null;
+                const officer = movement.officerId ? await ctx.db.get(movement.officerId) : null;
+                return { ...movement, fromPrison, toPrison, officer };
+            })
+        );
+
+        return {
+            inmate,
+            prison,
+            offense,
+            photos,
+            fingerprints,
+            medicalRecords,
+            items,
+            courtAppearances: enrichedAppearances,
+            movements: enrichedMovements,
+            visits,
+        };
+    },
+});
