@@ -33,5 +33,24 @@ env
 .tauri
 .tanstack
 
-# Tauri
-src-tauri/target
+# --- Rust / Tauri ---
+src-tauri/target/
+src-tauri/gen/
+src-tauri/binaries/
+
+# --- Tauri Auto-Updater Keys ---
+# NEVER commit your private key
+*.key
+!*.key.pub
+
+# --- TanStack Start / Nitro ---
+.output/
+.vinxi/
+.tanstack/
+
+# --- General JS / Bun ---
+node_modules/
+bun.lockb
+.env
+.env.local
+.env.*.local
