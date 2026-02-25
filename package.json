@@ -7,9 +7,9 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "bun --bun vite",
-    "build": "tsc && bun --bun vite build",
-    "preview": "bun --bun vite preview",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
     "tauri": "tauri",
     "convex-dev": "bunx --bun convex dev"
   },

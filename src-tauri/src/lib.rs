@@ -20,7 +20,6 @@ pub fn run() {
                     .title("pma")
                     .build()?;
             }
-
             #[cfg(debug_assertions)]
             {
                 if let Some(window) = app.get_webview_window("main") {
