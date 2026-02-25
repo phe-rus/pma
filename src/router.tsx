@@ -9,7 +9,7 @@ import { Button } from "./components/ui/button"
 import "@/styles/globals.css"
 
 export function getRouter() {
-  const { queryClient, convexQueryClient } = connectConvexContext()
+  const { queryClient, convexQueryClient, convexReactClient } = connectConvexContext()
   const router = createTanStackRouter({
     routeTree,
     scrollRestoration: true,
@@ -52,7 +52,7 @@ export function getRouter() {
     },
     Wrap: ({ children }) => {
       return (
-        <AppConvexProvider client={convexQueryClient}>
+        <AppConvexProvider client={convexReactClient}>
           {children}
         </AppConvexProvider>
       )

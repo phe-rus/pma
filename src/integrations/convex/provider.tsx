@@ -92,10 +92,8 @@ export function getConvexContext(): ConvexContext {
 
 // Alias for backward compatibility
 export const getContext = getConvexContext
-
 export function connectConvexContext(): ConvexContext {
   const ctx = getConvexContext()
-
   if (!ctx.connected) {
     try {
       ctx.convexQueryClient.connect(ctx.queryClient)
@@ -106,8 +104,7 @@ export function connectConvexContext(): ConvexContext {
       throw error
     }
   }
-
-  return ctx
+  return ctx  // Returns the full context including convexReactClient
 }
 
 // Fixed: Use convexReactClient.close() instead of convexQueryClient.close()
