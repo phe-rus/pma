@@ -59,6 +59,11 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
+          VITE_CONVEX_SITE_URL: ${{ secrets.VITE_CONVEX_SITE_URL }}
+          CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
+          USE_SSR_PRERENDER_MODE: ${{ secrets.USE_SSR_PRERENDER_MODE }}
+
         with:
           tagName: v__VERSION__
           releaseName: "PMA App v__VERSION__"
