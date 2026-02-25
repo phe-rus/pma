@@ -6,7 +6,6 @@ import { toast } from 'sonner'
 const CONVEX_URL = import.meta.env.VITE_CONVEX_URL
 
 if (!CONVEX_URL) {
-  toast.error('Missing environment variable: VITE_CONVEX_URL')
   throw new Error('Missing environment variable: VITE_CONVEX_URL')
 }
 

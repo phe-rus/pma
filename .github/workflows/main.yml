@@ -27,7 +27,14 @@ jobs:
         if: matrix.platform == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            javascriptcoregtk-4.1-dev \
+            libsoup-3.0-dev
 
       - name: Install JS Dependencies
         run: bun install
@@ -39,7 +46,7 @@ jobs:
           CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
           VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
           VITE_CONVEX_SITE_URL: ${{ secrets.VITE_CONVEX_SITE_URL }}
-          USE_SSR_PRERENDER_MODE: false
+          USE_SSR_PRERENDER_MODE: ${{ secrets.USE_SSR_PRERENDER_MODE }}
         with:
           tagName: v__VERSION__
           releaseName: "PMA App v__VERSION__"
