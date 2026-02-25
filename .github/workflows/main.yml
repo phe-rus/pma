@@ -1,4 +1,4 @@
-name: Build & Release Tauri
+name: Build & Release PMA
 on:
   push:
     branches: [main]
@@ -7,54 +7,35 @@ jobs:
   build:
     permissions:
       contents: write
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [windows-latest, ubuntu-latest]
-    runs-on: ${{ matrix.platform }}
-    env:
-      CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
-      VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
-      VITE_CONVEX_SITE_URL: ${{ secrets.VITE_CONVEX_SITE_URL }}
-      USE_SSR_PRERENDER_MODE: ${{ secrets.USE_SSR_PRERENDER_MODE }}
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v6
+
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.platform == 'windows-latest' && 'x86_64-pc-windows-msvc' || 'x86_64-unknown-linux-gnu' }}
+          targets: x86_64-pc-windows-msvc
+
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
-      - name: Install dependencies (Ubuntu only)
-        if: matrix.platform == 'ubuntu-latest'
+        uses: oven-sh/setup-bun@v2
+
+      - name: Create .env file
+        shell: bash
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libgtk-3-dev \
-            libwebkit2gtk-4.1-dev \
-            libappindicator3-dev \
-            librsvg2-dev \
-            patchelf \
-            javascriptcoregtk-4.1-dev \
-            libsoup-3.0-dev
+          echo "CONVEX_DEPLOYMENT=${{ secrets.CONVEX_DEPLOYMENT }}" >> .env
+          echo "VITE_CONVEX_URL=${{ secrets.VITE_CONVEX_URL }}" >> .env
+          echo "VITE_CONVEX_SITE_URL=${{ secrets.VITE_CONVEX_SITE_URL }}" >> .env
+          echo "CONVEX_DEPLOYMENT=${{ secrets.CONVEX_DEPLOYMENT }}" >> .env
+          echo "USE_SSR_PRERENDER_MODE=${{ secrets.USE_SSR_PRERENDER_MODE }}" >> .env
 
       - name: Install JS Dependencies
         run: bun install
 
-      - name: Check env vars
-        run: |
-          echo "VITE_CONVEX_URL is set: ${{ env.VITE_CONVEX_URL != '' }}"
-        shell: bash
-
       - name: Build Tauri
-        uses: tauri-apps/tauri-action@v0.6.1
+        uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
-          VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
-          VITE_CONVEX_SITE_URL: ${{ secrets.VITE_CONVEX_SITE_URL }}
-          USE_SSR_PRERENDER_MODE: ${{ secrets.USE_SSR_PRERENDER_MODE }}
         with:
           tagName: v__VERSION__
           releaseName: "PMA App v__VERSION__"

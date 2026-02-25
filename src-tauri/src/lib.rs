@@ -1,4 +1,4 @@
-use tauri::{Manager, webview::WebviewWindowBuilder, WebviewUrl};
+use tauri::{webview::WebviewWindowBuilder, WebviewUrl};
 
 #[tauri::command]
 fn greet(name: &str) -> String {
