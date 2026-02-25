@@ -1,11 +1,11 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "pma",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "identifier": "com.pma.miina",
   "build": {
     "beforeDevCommand": "bun run dev",
-    "devUrl": "http://localhost:1420",
+    "devUrl": "http://localhost:3000",
     "beforeBuildCommand": "bun run build",
     "frontendDist": "../.output/public"
   },
@@ -17,6 +17,8 @@
         "title": "pma",
         "width": 1200,
         "height": 600,
+        "minWidth": 800,
+        "minHeight": 400,
         "resizable": true,
         "decorations": false,
         "transparent": true,
@@ -31,9 +33,13 @@
     ],
     "security": {
       "csp": {
-        "default-src": "'self' asset: http: https: ipc: blob: data:"
+        "default-src": "'self' asset: https: ipc: blob: data:",
+        "connect-src": "'self' asset: https: ipc: wss://*.convex.cloud https://*.convex.cloud http://ipc.localhost http://localhost:9527 http://localhost:3000 http://localhost:* http://*.localhost",
+        "script-src": "'self' 'unsafe-inline' 'unsafe-eval' asset:",
+        "style-src": "'self' 'unsafe-inline' asset:",
+        "img-src": "'self' asset: https: blob: data:"
       },
-      "dangerousDisableAssetCspModification": true,
+      "dangerousDisableAssetCspModification": false,
       "assetProtocol": {
         "enable": true,
         "scope": {
@@ -48,19 +54,31 @@
   "bundle": {
     "active": true,
     "createUpdaterArtifacts": false,
+    "publisher": "Pherus Labs",
+    "copyright": "2026 Pherus Labs",
     "targets": [
-      "nsis",
       "msi",
       "deb"
     ],
     "category": "Utility",
     "shortDescription": "Prison Management System",
+    "longDescription": "Prison Management System - PMA is an application that helps prison officials manage their prisons.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "linux": {
+      "deb": {
+        "depends": []
+      }
+    },
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    }
   }
 }

@@ -20,6 +20,10 @@
     "core:app:allow-set-app-theme",
     "core:event:allow-emit",
     "core:event:allow-listen",
+    "core:app:allow-default-window-icon",
+    "core:app:allow-tauri-version",
+    "core:webview:allow-print",
+    "core:webview:allow-internal-toggle-devtools",
     "core:webview:allow-create-webview",
     "core:webview:allow-create-webview-window",
     "core:webview:allow-get-all-webviews",
@@ -44,6 +48,9 @@
     "core:window:allow-unminimize",
     "core:window:allow-set-fullscreen",
     "core:window:allow-set-resizable",
-    "core:window:allow-maximize"
+    "core:window:allow-maximize",
+    "websocket:default",
+    "websocket:allow-connect",
+    "websocket:allow-send"
   ]
 }

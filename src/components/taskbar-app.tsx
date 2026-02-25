@@ -1,5 +1,5 @@
 import { Cancel01Icon, RectangularIcon, Remove01Icon } from "@hugeicons/core-free-icons";
-import { getCurrentWindow, Window } from '@tauri-apps/api/window';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 import { HugeiconsIcon } from "@hugeicons/react";
 import { SidebarTrigger } from "./ui/sidebar";
 import { useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ import { useIsTauri } from "@/lib/useIsTauri";
 import { UseThemeSwitcher } from "./theme-provider";
 
 export function TaskbarApp() {
-    const [appWindow, setAppWindow] = useState<Window | null>(null)
+    const [appWindow, setAppWindow] = useState<ReturnType<typeof getCurrentWindow> | null>(null)
     const [mounted, setMounted] = useState(false)
     const isTauri = useIsTauri()
 
@@ -19,7 +19,7 @@ export function TaskbarApp() {
         if (isTauri) {
             setAppWindow(getCurrentWindow())
         }
-    }, [])
+    }, [isTauri]) // Add isTauri to dependency array
 
     const minimize = () => appWindow?.minimize()
     const toggleMaximize = () => appWindow?.toggleMaximize()
@@ -75,6 +75,7 @@ export function TaskbarApp() {
                             variant="secondary"
                             onClick={minimize}
                             aria-label="Minimize window"
+                            className='cursor-pointer'
                         >
                             <HugeiconsIcon
                                 icon={Remove01Icon}
@@ -87,6 +88,7 @@ export function TaskbarApp() {
                             variant="secondary"
                             onClick={toggleMaximize}
                             aria-label="Toggle maximize"
+                            className='cursor-pointer'
                         >
                             <HugeiconsIcon
                                 icon={RectangularIcon}
@@ -99,6 +101,7 @@ export function TaskbarApp() {
                             onClick={close}
                             variant="destructive"
                             aria-label="Close window"
+                            className='cursor-pointer'
                         >
                             <HugeiconsIcon
                                 icon={Cancel01Icon}

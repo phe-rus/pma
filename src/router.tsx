@@ -1,12 +1,12 @@
-import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query"
 import { createRouter as createTanStackRouter, useNavigate } from '@tanstack/react-router'
+import AppConvexProvider, { connectConvexContext } from "./integrations/convex/provider"
+import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query"
 import { FileNotFoundIcon, Loading03Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { routeTree } from './routeTree.gen'
-import AppConvexProvider, { connectConvexContext } from "./integrations/convex/provider"
 
-import "@/styles/globals.css"
 import { Button } from "./components/ui/button"
+import "@/styles/globals.css"
 
 export function getRouter() {
   const { queryClient, convexQueryClient } = connectConvexContext()
@@ -18,10 +18,13 @@ export function getRouter() {
     defaultPendingComponent: () => {
       return (
         <div className="flex items-center justify-center h-screen">
-          <HugeiconsIcon
-            icon={Loading03Icon}
-            className="size-12 dualTone animate-spin"
-          />
+          <div className="flex flex-col text-center items-center justify-center gap-2">
+            <HugeiconsIcon
+              icon={Loading03Icon}
+              className="size-12 dualTone animate-spin"
+            />
+            <p className="text-base font-bold tracking-tight">Loading...</p>
+          </div>
         </div>
       )
     },

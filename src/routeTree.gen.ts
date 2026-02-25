@@ -15,9 +15,11 @@ import { Route as ManagementVisitsIndexRouteImport } from './routes/_management/
 import { Route as ManagementSettingsIndexRouteImport } from './routes/_management/settings/index'
 import { Route as ManagementPrisonsIndexRouteImport } from './routes/_management/prisons/index'
 import { Route as ManagementOfficersIndexRouteImport } from './routes/_management/officers/index'
+import { Route as ManagementOffensesIndexRouteImport } from './routes/_management/offenses/index'
 import { Route as ManagementMovementsIndexRouteImport } from './routes/_management/movements/index'
 import { Route as ManagementInmatesIndexRouteImport } from './routes/_management/inmates/index'
 import { Route as ManagementDocumentationsIndexRouteImport } from './routes/_management/documentations/index'
+import { Route as ManagementCourtsIndexRouteImport } from './routes/_management/courts/index'
 import { Route as ManagementInmatesUidIndexRouteImport } from './routes/_management/inmates/$uid/index'
 
 const ManagementRouteRoute = ManagementRouteRouteImport.update({
@@ -49,6 +51,11 @@ const ManagementOfficersIndexRoute = ManagementOfficersIndexRouteImport.update({
   path: '/officers/',
   getParentRoute: () => ManagementRouteRoute,
 } as any)
+const ManagementOffensesIndexRoute = ManagementOffensesIndexRouteImport.update({
+  id: '/offenses/',
+  path: '/offenses/',
+  getParentRoute: () => ManagementRouteRoute,
+} as any)
 const ManagementMovementsIndexRoute =
   ManagementMovementsIndexRouteImport.update({
     id: '/movements/',
@@ -66,6 +73,11 @@ const ManagementDocumentationsIndexRoute =
     path: '/documentations/',
     getParentRoute: () => ManagementRouteRoute,
   } as any)
+const ManagementCourtsIndexRoute = ManagementCourtsIndexRouteImport.update({
+  id: '/courts/',
+  path: '/courts/',
+  getParentRoute: () => ManagementRouteRoute,
+} as any)
 const ManagementInmatesUidIndexRoute =
   ManagementInmatesUidIndexRouteImport.update({
     id: '/inmates/$uid/',
@@ -75,9 +87,11 @@ const ManagementInmatesUidIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof ManagementIndexRoute
+  '/courts/': typeof ManagementCourtsIndexRoute
   '/documentations/': typeof ManagementDocumentationsIndexRoute
   '/inmates/': typeof ManagementInmatesIndexRoute
   '/movements/': typeof ManagementMovementsIndexRoute
+  '/offenses/': typeof ManagementOffensesIndexRoute
   '/officers/': typeof ManagementOfficersIndexRoute
   '/prisons/': typeof ManagementPrisonsIndexRoute
   '/settings/': typeof ManagementSettingsIndexRoute
@@ -86,9 +100,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof ManagementIndexRoute
+  '/courts': typeof ManagementCourtsIndexRoute
   '/documentations': typeof ManagementDocumentationsIndexRoute
   '/inmates': typeof ManagementInmatesIndexRoute
   '/movements': typeof ManagementMovementsIndexRoute
+  '/offenses': typeof ManagementOffensesIndexRoute
   '/officers': typeof ManagementOfficersIndexRoute
   '/prisons': typeof ManagementPrisonsIndexRoute
   '/settings': typeof ManagementSettingsIndexRoute
@@ -99,9 +115,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_management': typeof ManagementRouteRouteWithChildren
   '/_management/': typeof ManagementIndexRoute
+  '/_management/courts/': typeof ManagementCourtsIndexRoute
   '/_management/documentations/': typeof ManagementDocumentationsIndexRoute
   '/_management/inmates/': typeof ManagementInmatesIndexRoute
   '/_management/movements/': typeof ManagementMovementsIndexRoute
+  '/_management/offenses/': typeof ManagementOffensesIndexRoute
   '/_management/officers/': typeof ManagementOfficersIndexRoute
   '/_management/prisons/': typeof ManagementPrisonsIndexRoute
   '/_management/settings/': typeof ManagementSettingsIndexRoute
@@ -112,9 +130,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/courts/'
     | '/documentations/'
     | '/inmates/'
     | '/movements/'
+    | '/offenses/'
     | '/officers/'
     | '/prisons/'
     | '/settings/'
@@ -123,9 +143,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/courts'
     | '/documentations'
     | '/inmates'
     | '/movements'
+    | '/offenses'
     | '/officers'
     | '/prisons'
     | '/settings'
@@ -135,9 +157,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_management'
     | '/_management/'
+    | '/_management/courts/'
     | '/_management/documentations/'
     | '/_management/inmates/'
     | '/_management/movements/'
+    | '/_management/offenses/'
     | '/_management/officers/'
     | '/_management/prisons/'
     | '/_management/settings/'
@@ -193,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ManagementOfficersIndexRouteImport
       parentRoute: typeof ManagementRouteRoute
     }
+    '/_management/offenses/': {
+      id: '/_management/offenses/'
+      path: '/offenses'
+      fullPath: '/offenses/'
+      preLoaderRoute: typeof ManagementOffensesIndexRouteImport
+      parentRoute: typeof ManagementRouteRoute
+    }
     '/_management/movements/': {
       id: '/_management/movements/'
       path: '/movements'
@@ -214,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ManagementDocumentationsIndexRouteImport
       parentRoute: typeof ManagementRouteRoute
     }
+    '/_management/courts/': {
+      id: '/_management/courts/'
+      path: '/courts'
+      fullPath: '/courts/'
+      preLoaderRoute: typeof ManagementCourtsIndexRouteImport
+      parentRoute: typeof ManagementRouteRoute
+    }
     '/_management/inmates/$uid/': {
       id: '/_management/inmates/$uid/'
       path: '/inmates/$uid'
@@ -226,9 +264,11 @@ declare module '@tanstack/react-router' {
 
 interface ManagementRouteRouteChildren {
   ManagementIndexRoute: typeof ManagementIndexRoute
+  ManagementCourtsIndexRoute: typeof ManagementCourtsIndexRoute
   ManagementDocumentationsIndexRoute: typeof ManagementDocumentationsIndexRoute
   ManagementInmatesIndexRoute: typeof ManagementInmatesIndexRoute
   ManagementMovementsIndexRoute: typeof ManagementMovementsIndexRoute
+  ManagementOffensesIndexRoute: typeof ManagementOffensesIndexRoute
   ManagementOfficersIndexRoute: typeof ManagementOfficersIndexRoute
   ManagementPrisonsIndexRoute: typeof ManagementPrisonsIndexRoute
   ManagementSettingsIndexRoute: typeof ManagementSettingsIndexRoute
@@ -238,9 +278,11 @@ interface ManagementRouteRouteChildren {
 
 const ManagementRouteRouteChildren: ManagementRouteRouteChildren = {
   ManagementIndexRoute: ManagementIndexRoute,
+  ManagementCourtsIndexRoute: ManagementCourtsIndexRoute,
   ManagementDocumentationsIndexRoute: ManagementDocumentationsIndexRoute,
   ManagementInmatesIndexRoute: ManagementInmatesIndexRoute,
   ManagementMovementsIndexRoute: ManagementMovementsIndexRoute,
+  ManagementOffensesIndexRoute: ManagementOffensesIndexRoute,
   ManagementOfficersIndexRoute: ManagementOfficersIndexRoute,
   ManagementPrisonsIndexRoute: ManagementPrisonsIndexRoute,
   ManagementSettingsIndexRoute: ManagementSettingsIndexRoute,

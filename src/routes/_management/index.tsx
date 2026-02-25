@@ -190,20 +190,15 @@ function QuickAction({ label, icon, iconClass, bgClass, category }: {
 }) {
   return (
     <Sheet>
-      <SheetTrigger>
-        <button
-          type="button"
-          className="group flex items-center gap-3 rounded-lg border border-border/60 bg-sidebar/50 px-3 py-2.5 hover:bg-sidebar hover:border-border transition-all text-left w-full"
-        >
-          <span className={cn('rounded-md p-1.5 shrink-0', bgClass)}>
-            <HugeiconsIcon icon={icon} className={cn('size-3.5', iconClass)} />
-          </span>
-          <span className="text-xs font-medium flex-1">{label}</span>
-          <HugeiconsIcon
-            icon={ArrowRight01Icon}
-            className="size-3.5 text-muted-foreground/50 group-hover:text-muted-foreground group-hover:translate-x-0.5 transition-all"
-          />
-        </button>
+      <SheetTrigger className={'"group flex items-center gap-3 rounded-lg border border-border/60 bg-sidebar/50 px-3 py-2.5 hover:bg-sidebar hover:border-border transition-all text-left w-full"'}>
+        <span className={cn('rounded-md p-1.5 shrink-0', bgClass)}>
+          <HugeiconsIcon icon={icon} className={cn('size-3.5', iconClass)} />
+        </span>
+        <span className="text-xs font-medium flex-1">{label}</span>
+        <HugeiconsIcon
+          icon={ArrowRight01Icon}
+          className="size-3.5 text-muted-foreground/50 group-hover:text-muted-foreground group-hover:translate-x-0.5 transition-all"
+        />
       </SheetTrigger>
       <SheetApplication defaultCategory={category} />
     </Sheet>
@@ -241,8 +236,6 @@ function PieTooltip({ active, payload }: any) {
     </div>
   )
 }
-
-// ─── Legend strip ─────────────────────────────────────────────────────────────
 
 function LegendStrip({ items }: { items: { name: string; color: string; value: number }[] }) {
   const total = items.reduce((s, i) => s + i.value, 0)
@@ -371,8 +364,6 @@ function RouteComponent() {
 
   return (
     <article className="flex flex-col gap-5 py-5 md:max-w-5xl w-full mx-auto">
-
-      {/* ── Header ── */}
       <header className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Overview</h1>
@@ -408,7 +399,7 @@ function RouteComponent() {
       )}
 
       {/* ── Stat cards ── */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <section className="flex flex-wrap items-center gap-3">
         <StatCard
           label="Total Inmates"
           value={totalInmates}
@@ -451,7 +442,13 @@ function RouteComponent() {
           {/* key fix: explicit min-h, no overflow-hidden on parent */}
           <div style={{ minHeight: 208 }} className="px-2 pb-4 w-full">
             <ResponsiveContainer width="100%" height={208}>
-              <AreaChart data={admissionsOverTime} margin={{ top: 4, right: 16, left: -20, bottom: 0 }}>
+              <AreaChart data={admissionsOverTime}
+                margin={{
+                  top: 4,
+                  right: 16,
+                  left: -20,
+                  bottom: 0
+                }}>
                 <defs>
                   <linearGradient id="admGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="hsl(0 72% 51%)" stopOpacity={0.25} />
@@ -542,7 +539,12 @@ function RouteComponent() {
         <ChartCard title="Visit Activity" sub="Scheduled visits per month" className="md:col-span-2">
           <div style={{ minHeight: 176 }} className="px-2 pb-4 w-full">
             <ResponsiveContainer width="100%" height={176}>
-              <AreaChart data={visitsTrend} margin={{ top: 4, right: 16, left: -20, bottom: 0 }}>
+              <AreaChart data={visitsTrend} margin={{
+                top: 4,
+                right: 16,
+                left: -20,
+                bottom: 0
+              }}>
                 <defs>
                   <linearGradient id="visitGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="hsl(217 91% 60%)" stopOpacity={0.2} />
@@ -550,8 +552,20 @@ function RouteComponent() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid vertical={false} stroke="hsl(var(--border))" strokeOpacity={0.4} />
-                <XAxis dataKey="month" tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} axisLine={false} tickLine={false} allowDecimals={false} />
+                <XAxis dataKey="month" tick={{
+                  fontSize: 11,
+                  fill: 'hsl(var(--muted-foreground))',
+                  color: 'hsl(var(--primary))'
+                }} axisLine={false} tickLine={false} />
+                <YAxis
+                  tick={{
+                    fontSize: 11,
+                    fill: 'hsl(var(--muted-foreground))'
+                  }}
+                  axisLine={false}
+                  tickLine={false}
+                  allowDecimals={false}
+                />
                 <Tooltip content={<CustomTooltip />} />
                 <Area type="monotone" dataKey="count" name="visits" stroke="hsl(217 91% 60%)" strokeWidth={2} fill="url(#visitGrad)" dot={{ fill: 'hsl(217 91% 60%)', r: 3, strokeWidth: 0 }} activeDot={{ r: 5, strokeWidth: 0 }} />
               </AreaChart>

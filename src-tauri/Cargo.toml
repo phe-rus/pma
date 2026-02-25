@@ -1,6 +1,6 @@
 [package]
 name = "pma"
-version = "0.1.0"
+version = "1.0.1"
 description = "Prison Management Application"
 authors = ["pherus"]
 edition = "2021"
@@ -8,6 +8,38 @@ edition = "2021"
 [lib]
 name = "pma_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
+
+[workspace.lints.clippy]
+# Deny all warnings - treat them as errors
+all = { level = "deny", priority = -1 }
+pedantic = { level = "deny", priority = -1 }
+cargo = { level = "deny", priority = -1 }
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+# Unimplemented items can be left as warnings
+todo = "warn"
+unimplemented = "warn"
+
+# Correctness (deny)
+cast_lossless = "deny"
+cast_possible_truncation = "deny"
+cast_possible_wrap = "deny"
+cast_precision_loss = "deny"
+cast_sign_loss = "deny"
+
+# Performance (warn/deny)
+inefficient_to_string = "deny"
+large_enum_variant = "warn"
+large_stack_arrays = "warn"
+needless_pass_by_value = "warn"
+
+# Style (warn)
+missing_errors_doc = "warn"
+missing_panics_doc = "warn"
+
+[lints.rust]
+unsafe_code = "forbid"
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
@@ -17,6 +49,8 @@ tauri = { version = "2", features = ["protocol-asset"] }
 tauri-plugin-opener = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+tauri-plugin-websocket = "2"
+tauri-plugin-localhost = "2"
 
 [profile.release]
 lto = true

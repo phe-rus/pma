@@ -1,33 +1,50 @@
 name: Build & Release Tauri
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     permissions:
       contents: write
-    runs-on: windows-latest # Or windows-latest / macos-latest for cross-platform
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [windows-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'windows-latest' && 'x86_64-pc-windows-msvc' || 'x86_64-unknown-linux-gnu' }}
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
 
-      - name: Install Dependencies
+      - name: Install dependencies (Ubuntu only)
+        if: matrix.platform == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Install JS Dependencies
         run: bun install
 
       - name: Build Tauri
         uses: tauri-apps/tauri-action@v0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # <--- Add this line
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
           VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
           VITE_CONVEX_SITE_URL: ${{ secrets.VITE_CONVEX_SITE_URL }}
+          USE_SSR_PRERENDER_MODE: false
         with:
-          tagName: v__VERSION__ # Replaces with version from package.json
-          releaseName: "Pherus App v__VERSION__"
-          releaseBody: "Automated build from GitHub Actions"
-          releaseDraft: false # Change this to see it immediately
+          tagName: v__VERSION__
+          releaseName: "PMA App v__VERSION__"
+          releaseBody: "Automated 64-bit build for PMA."
+          releaseDraft: false
           prerelease: false
+          # This ensures only the artifacts defined in tauri.conf.json are uploaded
+          includeRelease: true

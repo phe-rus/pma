@@ -1,16 +1,17 @@
 {
   "name": "pma",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.1",
   "type": "module",
   "imports": {
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "tauri": "tauri"
+    "dev": "bun --bun vite",
+    "build": "tsc && bun --bun vite build",
+    "preview": "bun --bun vite preview",
+    "tauri": "tauri",
+    "convex-dev": "bunx --bun convex dev"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
@@ -27,8 +28,9 @@
     "@tanstack/react-start": "^1.161.3",
     "@tanstack/react-table": "^8.21.3",
     "@tanstack/router-plugin": "^1.161.3",
-    "@tauri-apps/api": "^2",
+    "@tauri-apps/api": "^2.10.1",
     "@tauri-apps/plugin-opener": "^2",
+    "@tauri-apps/plugin-websocket": "~2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "convex": "^1.32.0",
@@ -61,6 +63,7 @@
     "vite": "^7.3.1",
     "vite-plugin-commonjs-externals": "^0.1.4",
     "vite-tsconfig-paths": "^6.1.1",
-    "vitest": "^4.0.18"
+    "vitest": "^4.0.18",
+    "web-vitals": "^5.1.0"
   }
 }

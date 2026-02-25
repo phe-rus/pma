@@ -15,6 +15,7 @@ import {
     UserShield01Icon,
     UserMultiple02Icon,
     ArrowMoveUpLeftFreeIcons as ArrowMoveLeftRight02Icon,
+    Calendar03Icon,
 } from "@hugeicons/core-free-icons"
 
 import { InmateForm } from "./inmate-form"
@@ -25,6 +26,7 @@ import { OffenseForm } from "./offense-form"
 import { VisitorForm } from "./visitor-form"
 import { MovementForm } from "./movement-form"
 import { useSidebarContext } from "../management-provider/app-sidebar"
+import { CourtAppearanceForm } from "./court-appearances-form"
 
 const CATEGORIES = [
     {
@@ -82,6 +84,15 @@ const CATEGORIES = [
         description: "Register a court for appearances",
     },
     {
+        id: "court-appearance" as const,
+        label: "Appearance",
+        icon: Calendar03Icon,
+        color: "text-cyan-600",
+        bg: "bg-cyan-500/10",
+        title: "Schedule court appearance",
+        description: "Book an inmate for an upcoming court hearing",
+    },
+    {
         id: "offense" as const,
         label: "Offense",
         icon: WarningDiamondIcon,
@@ -103,6 +114,7 @@ const FORMS: Record<SheetCategory, React.ComponentType<{
     officer: OfficerForm,
     prison: PrisonForm,
     court: CourtForm,
+    "court-appearance": CourtAppearanceForm,
     offense: OffenseForm,
 }
 

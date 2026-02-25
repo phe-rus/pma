@@ -1,5 +1,5 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail } from "@/components/ui/sidebar";
-import { Building01Icon, DocumentCodeIcon, GuestHouseIcon, Home01Icon, MoveBottomIcon, Plus, PoliceBadgeIcon, PrisonGuardIcon, Settings, VersusIcon } from "@hugeicons/core-free-icons";
+import { Building01Icon, DocumentCodeIcon, GuestHouseIcon, Home01Icon, JusticeScale02Icon, MoveBottomIcon, Plus, PoliceBadgeIcon, PrisonGuardIcon, Settings, UserWarning01Icon, VersusIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react";
 import { AppSidebarProps } from "./types";
 import { cn } from "@/lib/utils"
@@ -42,34 +42,44 @@ export function AppSidebar({ children, ...props }: AppSidebarProps) {
 
     const menuItems: MenuItemsTypes[] = [
         {
-            title: "Management",
+            title: "System Overview",
             icon: Home01Icon,
             to: '/'
         },
         {
-            title: 'Inmate',
+            title: 'Inmate Management',
             icon: PrisonGuardIcon,
             to: '/inmates'
         },
         {
-            title: 'Visitors',
+            title: 'Visit Management',
             icon: GuestHouseIcon,
             to: '/visits'
         },
         {
-            title: 'Officers',
+            title: 'Officers Management',
             icon: Building01Icon,
             to: '/officers'
         },
         {
-            title: 'Prisons',
+            title: 'Prisons & Facilities',
             icon: PoliceBadgeIcon,
             to: '/prisons'
         },
         {
-            title: 'Movements',
+            title: 'Movement Records',
             icon: MoveBottomIcon,
             to: '/movements'
+        },
+        {
+            title: 'Offenses',
+            icon: UserWarning01Icon,
+            to: '/offenses'
+        },
+        {
+            title: 'Courts & Appearances',
+            icon: JusticeScale02Icon,
+            to: '/courts'
         }
     ]
     const footerItems: MenuItemsTypes[] = [
@@ -137,14 +147,15 @@ export function AppSidebar({ children, ...props }: AppSidebarProps) {
                                                     variant='default'
                                                     onClick={() => setOpenSheet(!openSheet)}
                                                     className={cn(
-                                                        'flex gap-3 items-center data-[slot=sidebar-menu-button]:bg-primary',
-                                                        "data-[slot=sidebar-menu-button]:text-primary-foreground",
-                                                        "data-[slot=sidebar-menu-button]:cursor-default",
-                                                        'data-[slot=sidebar-menu-button]:hover:bg-primary/90 data-[slot=sidebar-menu-button]:hover:text-primary-foreground'
+                                                        'flex gap-3 items-center data-[slot=sidebar-menu-button]:bg-primary/15',
+                                                        "data-[slot=sidebar-menu-button]:text-secondary-foreground data-[slot=sidebar-menu-button]:py-5",
+                                                        "data-[slot=sidebar-menu-button]:cursor-default data-[slot=sidebar-menu-button]:w-fit",
+                                                        'data-[slot=sidebar-menu-button]:hover:bg-primary/10 data-[slot=sidebar-menu-button]:hover:text-secondary-foreground',
+                                                        'data-[slot=sidebar-menu-button]:rounded-full'
                                                     )}
                                                 >
                                                     <HugeiconsIcon icon={Plus} className="size-4! dualTone" />
-                                                    <span>Add new inmate</span>
+                                                    <span className="text-sm font-bold pr-3">New inmate</span>
                                                 </SidebarMenuButton>
                                             </SidebarMenuItem>
                                         }
@@ -169,7 +180,7 @@ export function AppSidebar({ children, ...props }: AppSidebarProps) {
                                                 {item.icon &&
                                                     <HugeiconsIcon icon={item.icon} className="size-4! dualTone" />
                                                 }
-                                                <span className="text-base">{item.title}</span>
+                                                <span className="text-sm text-muted-foreground">{item.title}</span>
                                             </SidebarMenuButton>
                                         </SidebarMenuItem>
                                     ))}
@@ -186,7 +197,7 @@ export function AppSidebar({ children, ...props }: AppSidebarProps) {
                                         tooltip={item.title}
                                         isActive={true}
                                         className={cn(
-                                            'flex gap-3 items-center w-fit',
+                                            'flex gap-5 items-center w-fit',
                                             "data-[slot=sidebar-menu-button]:cursor-pointer",
                                             "data-[slot=sidebar-menu-button]:rounded-full"
                                         )}
@@ -198,7 +209,7 @@ export function AppSidebar({ children, ...props }: AppSidebarProps) {
                                         {item.icon &&
                                             <HugeiconsIcon icon={item.icon} className="size-4! dualTone" />
                                         }
-                                        <span className="text-xs">{item.title}</span>
+                                        <span className="text-xs text-muted-foreground">{item.title}</span>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
@@ -207,13 +218,13 @@ export function AppSidebar({ children, ...props }: AppSidebarProps) {
                                     tooltip="Settings"
                                     isActive={true}
                                     className={cn(
-                                        'flex gap-3 items-center w-fit',
+                                        'flex gap-5 items-center w-fit',
                                         "data-[slot=sidebar-menu-button]:cursor-pointer",
                                         "data-[slot=sidebar-menu-button]:rounded-full"
                                     )}
                                 >
                                     <HugeiconsIcon icon={VersusIcon} className="size-4! dualTone" />
-                                    <span className="flex gap-5 text-xs items-center justify-between w-full">Version
+                                    <span className="flex gap-3 text-xs items-center justify-between w-full">Version
                                         <span className="text-[10px] font-bold bg-primary text-primary-foreground px-2 py-1 rounded-full">Beta 1.0.0</span>
                                     </span>
                                 </SidebarMenuButton>

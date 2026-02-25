@@ -21,21 +21,31 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'PMA - Prison Management Application',
       },
+      {
+        name: 'description',
+        content: 'Prison Management Application',
+      },
+      {
+        name: 'author',
+        content: 'pherus',
+      },
+      {
+        name: 'keywords',
+        content: 'PMA, Prison Management Application',
+      },
+      {
+        name: 'theme-color',
+        content: '#000000',
+      }
     ],
     links: [
       {
         rel: 'stylesheet',
         href: globalcss,
       },
-    ],
-    scripts: [
-      {
-        src: 'https://tweakcn.com/live-preview.min.js',
-        crossOrigin: 'anonymous',
-      },
-    ],
+    ]
   }),
   component: RootDocument
 })
@@ -46,7 +56,7 @@ function RootDocument() {
       <head>
         <HeadContent />
       </head>
-      <body className='flex flex-col bg-background h-screen'>
+      <body className='flex flex-col bg-background h-screen antialiased'>
         <ThemeProvider
           attribute="class"
           enableSystem
