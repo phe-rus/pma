@@ -92,11 +92,11 @@ export default defineConfig(async () => ({
       ignored: ["**/src-tauri/**"],
     }
   },
-  define: {
+  /** define: {
     'process.env.CONVEX_DEPLOYMENT': JSON.stringify(process.env.CONVEX_DEPLOYMENT),
     'process.env.VITE_CONVEX_URL': JSON.stringify(process.env.VITE_CONVEX_URL),
     'process.env.VITE_CONVEX_SITE_URL': JSON.stringify(process.env.VITE_CONVEX_SITE_URL),
     'process.env.USE_SSR_PRERENDER_MODE': JSON.stringify(process.env.USE_SSR_PRERENDER_MODE),
     'process.env.TAURI_DEV_HOST': JSON.stringify(process.env.TAURI_DEV_HOST),
-  }
+  } **/
 }))

@@ -8,6 +8,7 @@ jobs:
     permissions:
       contents: write
     runs-on: windows-latest
+    environment: PMA
 
     steps:
       - uses: actions/checkout@v6
@@ -20,37 +21,14 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
 
-      # DEBUG: Check if secrets are available (masked in logs)
-      - name: Check secrets availability
-        shell: bash
-        run: |
-          echo "Checking if secrets are set..."
-          if [ -n "${{ secrets.VITE_CONVEX_URL }}" ]; then
-            echo "✓ VITE_CONVEX_URL is set"
-          else
-            echo "✗ VITE_CONVEX_URL is NOT set"
-          fi
-
-          if [ -n "${{ secrets.CONVEX_DEPLOYMENT }}" ]; then
-            echo "✓ CONVEX_DEPLOYMENT is set"
-          else
-            echo "✗ CONVEX_DEPLOYMENT is NOT set"
-          fi
-
       - name: Create .env file
         shell: bash
         run: |
-          # Remove any existing .env file first
           rm -f .env
-
-          # Write secrets to .env file
           echo "VITE_CONVEX_URL=${{ secrets.VITE_CONVEX_URL }}" >> .env
           echo "VITE_CONVEX_SITE_URL=${{ secrets.VITE_CONVEX_SITE_URL }}" >> .env
           echo "CONVEX_DEPLOYMENT=${{ secrets.CONVEX_DEPLOYMENT }}" >> .env
           echo "USE_SSR_PRERENDER_MODE=${{ secrets.USE_SSR_PRERENDER_MODE }}" >> .env
-
-          echo "Created .env file with the following keys:"
-          cat .env | cut -d'=' -f1
 
       - name: Install JS Dependencies
         run: bun install
@@ -59,11 +37,6 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
-          VITE_CONVEX_SITE_URL: ${{ secrets.VITE_CONVEX_SITE_URL }}
-          CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
-          USE_SSR_PRERENDER_MODE: ${{ secrets.USE_SSR_PRERENDER_MODE }}
-
         with:
           tagName: v__VERSION__
           releaseName: "PMA App v__VERSION__"
