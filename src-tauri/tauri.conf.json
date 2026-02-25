@@ -53,7 +53,7 @@
   },
   "bundle": {
     "active": true,
-    "createUpdaterArtifacts": false,
+    "createUpdaterArtifacts": true,
     "publisher": "Pherus Labs",
     "copyright": "2026 Pherus Labs",
     "targets": [
@@ -79,6 +79,16 @@
       "certificateThumbprint": null,
       "digestAlgorithm": "sha256",
       "timestampUrl": ""
+    }
+  },
+  "plugins": {
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://github.com/phe-rus/pma/releases/latest/download/latest.json"
+      ],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IHJzaWduIGVuY3J5cHRlZCBzZWNyZXQga2V5ClJXUlRZMEl5NloyM0NZZE1ZL3JxcFRDcEdac0hXVldhOEZRM25FT2FSVWZnMFEwUXg0Z0FBQkFBQUFBQUFBQUFBQUlBQUFBQVYrTlVsUkVhVGlUdCt2WW42RDJmd2dWVStlVU9TMXRrdVBGcHpVd1dFc2xoT3ZIRTJCTjFObTVDcFBTbHU4K0pvN2htS1ZvUWVFTjFCUWg5NXNJTHplb3JvU1R5d1hPN280a0UydE9rakNjMVdiNGtSdWtMNUdtdHNqRnB6Z0dnOERmZXlaOVJoQ2s9Cg=="
     }
   }
 }

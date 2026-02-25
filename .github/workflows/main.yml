@@ -29,6 +29,15 @@ jobs:
           echo "VITE_CONVEX_SITE_URL=${{ secrets.VITE_CONVEX_SITE_URL }}" >> .env
           echo "CONVEX_DEPLOYMENT=${{ secrets.CONVEX_DEPLOYMENT }}" >> .env
           echo "USE_SSR_PRERENDER_MODE=${{ secrets.USE_SSR_PRERENDER_MODE }}" >> .env
+          echo "TAURI_SIGNING_PRIVATE_KEY=${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}" >> .env
+          echo "TAURI_SIGNING_PRIVATE_KEY_PASSWORD=${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}" >> .env
+        env:
+          VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
+          VITE_CONVEX_SITE_URL: ${{ secrets.VITE_CONVEX_SITE_URL }}
+          CONVEX_DEPLOYMENT: ${{ secrets.CONVEX_DEPLOYMENT }}
+          USE_SSR_PRERENDER_MODE: ${{ secrets.USE_SSR_PRERENDER_MODE }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
 
       - name: Install JS Dependencies
         run: bun install

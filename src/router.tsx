@@ -1,7 +1,7 @@
 import { createRouter as createTanStackRouter, useNavigate } from '@tanstack/react-router'
 import AppConvexProvider, { connectConvexContext } from "./integrations/convex/provider"
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query"
-import { FileNotFoundIcon, Loading03Icon } from '@hugeicons/core-free-icons'
+import { FileNotFoundIcon, Loading03Icon, RssErrorIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { routeTree } from './routeTree.gen'
 
@@ -24,6 +24,23 @@ export function getRouter() {
               className="size-12 dualTone animate-spin"
             />
             <p className="text-base font-bold tracking-tight">Loading...</p>
+          </div>
+        </div>
+      )
+    },
+    defaultErrorComponent: (e) => {
+      const navigate = useNavigate()
+      return (
+        <div className="flex items-center justify-center h-screen">
+          <div className="flex flex-col text-center items-center justify-center gap-2">
+            <HugeiconsIcon
+              icon={RssErrorIcon}
+              className="size-12 dualTone"
+            />
+            <p className="text-base font-bold tracking-tight md:max-w-xs">Error reason: {JSON.stringify(e.error)}</p>
+            <Button onClick={() => navigate({ to: '/' })}>
+              Go Back
+            </Button>
           </div>
         </div>
       )

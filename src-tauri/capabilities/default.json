@@ -10,6 +10,7 @@
     "windows"
   ],
   "permissions": [
+    "process:default",
     "core:default",
     "opener:default",
     "core:window:default",
@@ -51,6 +52,17 @@
     "core:window:allow-maximize",
     "websocket:default",
     "websocket:allow-connect",
-    "websocket:allow-send"
+    "websocket:allow-send",
+    "opener:allow-open-url",
+    "core:menu:allow-popup",
+    "updater:default",
+    "updater:allow-check",
+    "updater:allow-download-and-install",
+    "dialog:allow-ask",
+    "dialog:allow-message",
+    "dialog:default",
+    "autostart:default",
+    "os:default",
+    "os:allow-hostname"
   ]
 }
