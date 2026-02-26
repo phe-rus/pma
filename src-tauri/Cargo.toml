@@ -54,6 +54,7 @@ tauri-plugin-localhost = "2"
 tauri-plugin-dialog = "2"
 tauri-plugin-process = "2"
 tauri-plugin-os = "2"
+tauri-plugin-fs = "2"
 
 [profile.release]
 lto = true

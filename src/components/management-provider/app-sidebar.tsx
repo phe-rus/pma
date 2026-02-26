@@ -3,11 +3,13 @@ import { Building01Icon, DocumentCodeIcon, GuestHouseIcon, Home01Icon, JusticeSc
 import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react";
 import { AppSidebarProps } from "./types";
 import { cn } from "@/lib/utils"
-import { createContext, useContext, useState } from "react";
+import { getVersion } from '@tauri-apps/api/app';
+import { createContext, useContext, useMemo, useState } from "react";
 import { Sheet, SheetTrigger } from "../ui/sheet";
 import { SheetApplication } from "../management-forms/sheet-application";
 import { LinkOptions, useLocation, useNavigate } from "@tanstack/react-router";
 import { useIsTauri } from "@/lib/useIsTauri";
+import { useQueries, useQuery } from "@tanstack/react-query";
 
 type SidebarContextType = {
     sidebarOpen: boolean;
@@ -95,6 +97,13 @@ export function AppSidebar({ children, ...props }: AppSidebarProps) {
         }
     ]
 
+    const { data: getCurrentVersion, isLoading: getCurrentVersionLoading } = useQuery({
+        queryKey: ['current-version'],
+        queryFn: async () => {
+            return await getVersion()
+        }
+    })
+
     return (
         <SidebarContext value={{
             sidebarOpen: openSheet,
@@ -155,7 +164,7 @@ export function AppSidebar({ children, ...props }: AppSidebarProps) {
                                                     )}
                                                 >
                                                     <HugeiconsIcon icon={Plus} className="size-4! dualTone" />
-                                                    <span className="text-sm font-bold pr-3">New inmate</span>
+                                                    <span className="text-xs font-bold pr-3">New inmate</span>
                                                 </SidebarMenuButton>
                                             </SidebarMenuItem>
                                         }
@@ -225,7 +234,7 @@ export function AppSidebar({ children, ...props }: AppSidebarProps) {
                                 >
                                     <HugeiconsIcon icon={VersusIcon} className="size-4! dualTone" />
                                     <span className="flex gap-3 text-xs items-center justify-between w-full">Version
-                                        <span className="text-[10px] font-bold bg-primary text-primary-foreground px-2 py-1 rounded-full">Beta 1.0.0</span>
+                                        <span className="text-[10px] font-bold bg-primary text-primary-foreground px-2 py-1 rounded-full">{getCurrentVersionLoading ? 'Loading...' : getCurrentVersion}</span>
                                     </span>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>

@@ -2811,6 +2811,7 @@ dependencies = [
  "tauri-build",
  "tauri-plugin-autostart",
  "tauri-plugin-dialog",
+ "tauri-plugin-fs",
  "tauri-plugin-localhost",
  "tauri-plugin-opener",
  "tauri-plugin-os",

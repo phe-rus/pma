@@ -104,7 +104,7 @@ function StatCard({
   trendLabel?: string
 }) {
   return (
-    <div className="relative rounded-xl border border-border/60 bg-sidebar p-4 flex flex-col gap-3">
+    <div className="relative rounded-xl min-w-52 border border-border/60 bg-sidebar p-4 flex flex-col gap-3">
       <div className="pointer-events-none absolute inset-0 opacity-[0.025] rounded-xl bg-[repeating-linear-gradient(0deg,currentColor_0px,currentColor_1px,transparent_1px,transparent_12px),repeating-linear-gradient(90deg,currentColor_0px,currentColor_1px,transparent_1px,transparent_12px)]" />
       <div className="flex items-start justify-between gap-2">
         <span className={cn('rounded-lg p-2 shrink-0', bgClass)}>

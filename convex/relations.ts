@@ -1,8 +1,6 @@
 import { query } from "./_generated/server";
 import { v } from "convex/values";
 
-// ─── helpers ─────────────────────────────────────────────────────────────────
-
 async function getOpt<T>(
     ctx: any,
     _table: string,
@@ -11,10 +9,6 @@ async function getOpt<T>(
     if (!id) return null;
     return (await ctx.db.get(id)) ?? null;
 }
-
-// ════════════════════════════════════════════════════════════════════════════
-// 1. INMATE
-// ════════════════════════════════════════════════════════════════════════════
 
 export const getInmateWithRelations = query({
     args: { id: v.id("inmates") },
@@ -80,14 +74,33 @@ export const getInmateWithRelations = query({
             }))
         );
 
+        // Hydrate court appearances with court + officer
+        const courtAppearancesHydrated = await Promise.all(
+            courtAppearances.map(async (a: any) => ({
+                ...a,
+                court: a.courtId ? await ctx.db.get(a.courtId) : null,
+                officer: a.officerId ? await ctx.db.get(a.officerId) : null,
+            }))
+        );
+
+        // Hydrate movements with prison names + officer
+        const movementsHydrated = await Promise.all(
+            movements.map(async (m: any) => ({
+                ...m,
+                fromPrison: m.fromPrisonId ? await ctx.db.get(m.fromPrisonId) : null,
+                toPrison: m.toPrisonId ? await ctx.db.get(m.toPrisonId) : null,
+                officer: m.officerId ? await ctx.db.get(m.officerId) : null,
+            }))
+        );
+
         return {
             ...inmate,
             prison,
             offense,
             charges: chargesHydrated,
             visits,
-            courtAppearances,
-            movements,
+            courtAppearances: courtAppearancesHydrated,
+            movements: movementsHydrated,
             itemsInCustody,
             medicalRecords,
             photos,

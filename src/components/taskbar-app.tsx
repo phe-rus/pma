@@ -1,29 +1,67 @@
-import { Cancel01Icon, RectangularIcon, Remove01Icon } from "@hugeicons/core-free-icons";
-import { getCurrentWindow } from '@tauri-apps/api/window';
+import { ArrowRight01Icon, Cancel01Icon, RectangularIcon, Remove01Icon } from "@hugeicons/core-free-icons";
+import { getCurrentWindow, type Window } from '@tauri-apps/api/window';
+import { UseThemeSwitcher } from "./theme-provider";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { SidebarTrigger } from "./ui/sidebar";
-import { useEffect, useState } from 'react';
+import { useIsTauri } from "@/lib/useIsTauri";
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { Separator } from "./ui/separator";
 import { Button } from './ui/button';
 import { cn } from "@/lib/utils";
-import { useIsTauri } from "@/lib/useIsTauri";
-import { UseThemeSwitcher } from "./theme-provider";
+import { Link, useLocation } from "@tanstack/react-router";
+import { Badge } from "./ui/badge";
+import { toast } from "sonner";
 
 export function TaskbarApp() {
-    const [appWindow, setAppWindow] = useState<ReturnType<typeof getCurrentWindow> | null>(null)
-    const [mounted, setMounted] = useState(false)
-    const isTauri = useIsTauri()
+    const [appWindow, setAppWindow] = useState<Window | null>(null);
+    const pathname = useLocation({ select: (ctx) => ctx.pathname });
+    const [mounted, setMounted] = useState(false);
+    const isTauri = useIsTauri();
+
+    const breadcrumbs = useMemo(() => {
+        const pathSegments = pathname.split('/').filter(Boolean);
+        return [
+            { label: 'system-overview', href: '/', isLast: pathSegments.length === 0 },
+            ...pathSegments.map((segment, index) => ({
+                label: segment,
+                href: `/${pathSegments.slice(0, index + 1).join('/')}`,
+                isLast: index === pathSegments.length - 1,
+            })),
+        ];
+    }, [pathname]);
 
     useEffect(() => {
-        setMounted(true)
-        if (isTauri) {
-            setAppWindow(getCurrentWindow())
-        }
-    }, [isTauri]) // Add isTauri to dependency array
+        let isActive = true;
 
-    const minimize = () => appWindow?.minimize()
-    const toggleMaximize = () => appWindow?.toggleMaximize()
-    const close = () => appWindow?.close()
+        if (isTauri && isActive) {
+            try {
+                const win = getCurrentWindow();
+                if (isActive) {
+                    setAppWindow(win);
+                }
+            } catch (error) {
+                console.error('Failed to get Tauri window:', error);
+            }
+        }
+
+        setMounted(true);
+
+        return () => {
+            isActive = false;
+        };
+    }, [isTauri]);
+
+    const minimize = useCallback(() => {
+        appWindow?.minimize().catch((e) => toast.error(e));
+    }, [appWindow]);
+
+    const toggleMaximize = useCallback(() => {
+        appWindow?.toggleMaximize().catch((e) => toast.error(e));
+    }, [appWindow]);
+
+    const close = useCallback(() => {
+        appWindow?.close().catch((e) => toast.error(e));
+    }, [appWindow]);
 
     if (!mounted) {
         return (
@@ -38,9 +76,10 @@ export function TaskbarApp() {
                         <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-8" />
                     </div>
                 </div>
-            </header>
+            </header >
         );
     }
+
 
     return (
         <header
@@ -63,7 +102,34 @@ export function TaskbarApp() {
                         className="data-[orientation=vertical]:h-8"
                     />
                     <nav className="flex items-center gap-px">
-                        <h1 className="text-xs font-medium">Documents</h1>
+                        <h1 className="flex items-center gap-1 text-xs font-medium">
+                            {breadcrumbs.map((crumb) => (
+                                <div key={crumb.href} className="flex items-center gap-1">
+                                    <Badge
+                                        variant={crumb.isLast ? 'default' : 'secondary'}
+                                        className="rounded"
+                                    >
+                                        <Link
+                                            to={crumb.href}
+                                            disabled={crumb.isLast}
+                                            className={cn(
+                                                "no-underline",
+                                                crumb.isLast ? "cursor-default" : "hover:underline cursor-pointer"
+                                            )}
+                                        >
+                                            {crumb.label}
+                                        </Link>
+                                    </Badge>
+
+                                    {!crumb.isLast && (
+                                        <HugeiconsIcon
+                                            icon={ArrowRight01Icon}
+                                            className="size-3 text-zinc-500"
+                                        />
+                                    )}
+                                </div>
+                            ))}
+                        </h1>
                     </nav>
                 </div>
 
@@ -113,5 +179,5 @@ export function TaskbarApp() {
                 )}
             </section>
         </header>
-    );
+    )
 }

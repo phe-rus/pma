@@ -40,11 +40,11 @@ function createConvexContext(): ConvexContext {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
+        networkMode: 'offlineFirst',
+        staleTime: 1000 * 60 * 5,
         queryKeyHashFn: convexQueryClient.hashFn(),
         queryFn: convexQueryClient.queryFn(),
-        // Add retry logic for better UX
         retry: (failureCount, error) => {
-          // Don't retry on 4xx errors
           if (error instanceof Error && error.message.includes('4')) {
             return false
           }
